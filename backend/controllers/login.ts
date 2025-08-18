@@ -36,4 +36,4 @@ loginRoute.post("/login", (request, response) => {
   })
 })
 
-export = loginRoute
+export default loginRoute

@@ -1,7 +1,8 @@
 import config from "../utils/config"
-import {createClient} from "@libsql/client"
+import { createClient } from "@libsql/client"
 
 import { Answer, User } from "../utils/types"
+import { getQuestionNum } from "../utils/funcs"
 
 const turso = createClient({
   url: config.TURSO_URI,
@@ -9,9 +10,7 @@ const turso = createClient({
 })
 
 export const getAnswers = async (): Promise<Answer[]> => {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const dateNum = today.getTime()
+  const dateNum = getQuestionNum()
 
   const res = await turso.execute({
     sql: "SELECT answer, user FROM answers WHERE question = ?",
@@ -21,6 +20,24 @@ export const getAnswers = async (): Promise<Answer[]> => {
   return res.rows.map((row) => {
     return { answer: String(row.answer), user: String(row.user) }
   })
+}
+
+export const addAnswer = async (
+  answer: string,
+  user: string,
+): Promise<boolean> => {
+  try {
+    const dateNum = getQuestionNum()
+
+    await turso.execute({
+      sql: "INSERT INTO answers (answer, user, question) ",
+      args: [answer, user, dateNum],
+    })
+  } catch (e) {
+    console.error("Error occured while trying to add an answer: ", e)
+    return false
+  }
+  return true
 }
 
 // Check if username and password are valid
@@ -52,10 +69,15 @@ export const checkUserName = async (name: string): Promise<boolean> => {
 }
 
 export const createUser = async (user: User): Promise<boolean> => {
-  await turso.execute({
-    sql: "INSERT INTO users (name, password, lastAnswer) VALUES (?, ?, ?)",
-    args: [user.name, user.password, 0],
-  })
+  try {
+    await turso.execute({
+      sql: "INSERT INTO users (name, password, lastAnswer) VALUES (?, ?, ?)",
+      args: [user.name, user.password, 0],
+    })
+  } catch (e) {
+    console.error("Error occured while trying to create a user: ", e)
+    return false
+  }
 
   return true
 }
