@@ -10,14 +10,9 @@ const MAX_CHARS = 15
 const MIN_PASS_LEN = 6
 
 const hasNonAllowed = (input: string): boolean => {
-  const nonAllowedChars = [
-    ',',
-    ' ',
-    '\t',
-    '\n'
-  ]
+  const nonAllowedChars = [",", " ", "\t", "\n"]
 
-  return nonAllowedChars.some(char => input.includes(char))
+  return nonAllowedChars.some((char) => input.includes(char))
 }
 
 loginRoute.post("/reg", (request, response) => {
@@ -30,13 +25,19 @@ loginRoute.post("/reg", (request, response) => {
     return
   }
 
-  if (user.name.length > MAX_CHARS || user.password.length > MAX_CHARS || user.password.length < MIN_PASS_LEN) {
+  if (
+    user.name.length > MAX_CHARS ||
+    user.password.length > MAX_CHARS ||
+    user.password.length < MIN_PASS_LEN
+  ) {
     response.status(401).send({ error: "character length limit acceded" })
     return
   }
 
   if (hasNonAllowed(user.name) || hasNonAllowed(user.password)) {
-    response.status(401).send({error: "username or password has non allowed character"})
+    response
+      .status(401)
+      .send({ error: "username or password has non allowed character" })
     return
   }
 

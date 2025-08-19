@@ -30,10 +30,16 @@ describe("testing login api", () => {
   })
 
   test("can't login into non existing account", async () => {
-    await api.post("/user/login").send({name: "non existent", password: ""}).expect(401)
+    await api
+      .post("/user/login")
+      .send({ name: "non existent", password: "" })
+      .expect(401)
   })
 
   test("can't login with wrong password", async () => {
-    await api.post("/user/login").send({name: defaultUser.name, password: ""}).expect(401)
+    await api
+      .post("/user/login")
+      .send({ name: defaultUser.name, password: "" })
+      .expect(401)
   })
 })

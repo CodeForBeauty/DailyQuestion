@@ -1,4 +1,4 @@
-require("dotenv").config({quiet: true})
+require("dotenv").config({ quiet: true })
 
 import logger from "./logger"
 
