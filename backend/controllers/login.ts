@@ -9,7 +9,10 @@ import { User } from "../utils/types"
 const MAX_CHARS = 15
 
 loginRoute.post("/reg", (request, response) => {
-  const user: User = { name: request.body.name, password: request.body.password }
+  const user: User = {
+    name: request.body.name,
+    password: request.body.password,
+  }
   if (!user.name || !user.password) {
     response.status(401).send({ error: "username or password are not present" })
     return

@@ -13,11 +13,16 @@ export const turso = createClient({
   authToken: config.TURSO_TOKEN,
 })
 
-
 export const clearDatabase = async () => {
-  await turso.execute("CREATE TABLE IF NOT EXISTS users (name TEXT UNIQUE NOT NULL, password TEXT NOT NULL, lastAnswer INTEGER NOT NULL)")
-  await turso.execute("CREATE TABLE IF NOT EXISTS questions (id INTEGER, question TEXT UNIQUE NOT NULL)")
-  await turso.execute("CREATE TABLE IF NOT EXISTS answers (answer TEXT NOT NULL DEFAULT 'Answer', user TEXT DEFAULT 'Anonymous', question INTEGER)")
+  await turso.execute(
+    "CREATE TABLE IF NOT EXISTS users (name TEXT UNIQUE NOT NULL, password TEXT NOT NULL, lastAnswer INTEGER NOT NULL)",
+  )
+  await turso.execute(
+    "CREATE TABLE IF NOT EXISTS questions (id INTEGER, question TEXT UNIQUE NOT NULL)",
+  )
+  await turso.execute(
+    "CREATE TABLE IF NOT EXISTS answers (answer TEXT NOT NULL DEFAULT 'Answer', user TEXT DEFAULT 'Anonymous', question INTEGER)",
+  )
 
   await turso.execute("DELETE FROM users")
   await turso.execute("DELETE FROM questions")
@@ -50,7 +55,7 @@ export const addAnswer = async (
     })
     await turso.execute({
       sql: "UPDATE users SET lastAnswer=? WHERE name=?",
-      args: [dateNum, user]
+      args: [dateNum, user],
     })
   } catch (e) {
     logger.error(`Error occured while trying to add an answer: ${e}`)

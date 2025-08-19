@@ -39,9 +39,10 @@ describe("testing answers api", () => {
   })
 
   test("adding answer", async () => {
-    await api.post("/answer")
+    await api
+      .post("/answer")
       .set("authorization", "Bearer " + token)
-      .send({answer: "gibberish"})
+      .send({ answer: "gibberish" })
       .expect(200)
 
     const response = await api
@@ -53,40 +54,44 @@ describe("testing answers api", () => {
   })
 
   test("correct answers are returned", async () => {
-    const first = {answer: "gibberish"}
-    const second = {answer: "some other answer"}
+    const first = { answer: "gibberish" }
+    const second = { answer: "some other answer" }
 
-    await api.post("/answer")
+    await api
+      .post("/answer")
       .set("authorization", "Bearer " + token)
       .send(first)
       .expect(200)
-    await api.post("/answer")
+    await api
+      .post("/answer")
       .set("authorization", "Bearer " + token1)
-      .send({...second, isAnon: true})
+      .send({ ...second, isAnon: true })
       .expect(200)
 
     const response = await api
       .get("/answer")
       .set("authorization", "Bearer " + token)
       .expect(200)
-    
+
     expect(response.body.length).toBe(2)
 
-    expect(response.body[0]).toStrictEqual({...first, user: "test"})
-    expect(response.body[1]).toStrictEqual({...second, user: "Anonymous"})
+    expect(response.body[0]).toStrictEqual({ ...first, user: "test" })
+    expect(response.body[1]).toStrictEqual({ ...second, user: "Anonymous" })
   })
 
   test("one user can't answer multiple times", async () => {
-    const first = {answer: "gibberish"}
-    const second = {answer: "some other answer"}
+    const first = { answer: "gibberish" }
+    const second = { answer: "some other answer" }
 
-    await api.post("/answer")
+    await api
+      .post("/answer")
       .set("authorization", "Bearer " + token)
       .send(first)
       .expect(200)
-    await api.post("/answer")
+    await api
+      .post("/answer")
       .set("authorization", "Bearer " + token)
-      .send({...second, isAnon: true})
+      .send({ ...second, isAnon: true })
       .expect(400)
   })
 })
