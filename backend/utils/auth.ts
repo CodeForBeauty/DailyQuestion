@@ -5,7 +5,8 @@ import config from "./config"
 import { checkUserName } from "../db"
 
 export const hashPassword = async (password: string): Promise<string> => {
-  return bcrypt.hash(password, config.ENCRYPT_KEY)
+  const saltRounds = 10
+  return bcrypt.hash(password, saltRounds)
 }
 
 export const createToken = (name: string): string => {
