@@ -3,8 +3,6 @@ import supertest from "supertest"
 import app from "../app"
 import { clearDatabase } from "../db"
 
-import { turso } from "../db"
-
 const api = supertest(app)
 
 let token = ""
@@ -15,11 +13,11 @@ beforeEach(async () => {
 
   const response = await api
     .post("/user/reg")
-    .send({ name: "test", password: "test" })
+    .send({ name: "test", password: "password" })
 
   const response1 = await api
     .post("/user/reg")
-    .send({ name: "test1", password: "test" })
+    .send({ name: "test1", password: "password" })
 
   token = response.body.token
   token1 = response1.body.token
@@ -94,8 +92,4 @@ describe("testing answers api", () => {
       .send({ ...second, isAnon: true })
       .expect(400)
   })
-})
-
-afterAll(() => {
-  turso.close()
 })

@@ -7,8 +7,6 @@ const info = (message: any) => {
 }
 
 const error = (message: any) => {
-  if (config.EXEC_ENV !== "test") {
-  }
   console.error(message)
 }
 

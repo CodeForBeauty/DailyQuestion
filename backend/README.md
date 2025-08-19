@@ -10,6 +10,8 @@ Express
 
 Jest
 
+Turso
+
 ### How to run
 
 Open this folder in terminal

@@ -6,6 +6,8 @@ import { checkToken } from "../utils/auth"
 import { addAnswer, checkUserAnswer, getAnswers } from "../db"
 import config from "../utils/config"
 
+const MAX_ANSWER_LEN = 250
+
 const isValidToken = async (header: string): Promise<boolean> => {
   if (!header.startsWith("Bearer ")) {
     return false
@@ -38,8 +40,8 @@ answersRoute.post("/", async (request, response) => {
   }
 
   const answer: string = request.body.answer
-  if (!answer) {
-    response.status(400).send({ error: "answer is not present" })
+  if (!answer || answer.length > MAX_ANSWER_LEN) {
+    response.status(400).send({ error: "answer is not present or is too big" })
     return
   }
 

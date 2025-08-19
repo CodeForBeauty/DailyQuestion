@@ -4,13 +4,14 @@ import { createClient } from "@libsql/client"
 import { Answer, User } from "../utils/types"
 import { getQuestionNum } from "../utils/funcs"
 
-import { hashPassword } from "../utils/auth"
+import { hashPassword, checkPassword } from "../utils/auth"
 
 import logger from "../utils/logger"
 
 export const turso = createClient({
   url: config.EXEC_ENV !== "test" ? config.TURSO_URI : "file:tests/tests.db",
   authToken: config.TURSO_TOKEN,
+  
 })
 
 export const clearDatabase = async () => {
@@ -23,7 +24,7 @@ export const clearDatabase = async () => {
   await turso.execute(
     "CREATE TABLE IF NOT EXISTS answers (answer TEXT NOT NULL DEFAULT 'Answer', user TEXT DEFAULT 'Anonymous', question INTEGER)",
   )
-
+  
   await turso.execute("DELETE FROM users")
   await turso.execute("DELETE FROM questions")
   await turso.execute("DELETE FROM answers")
@@ -71,12 +72,11 @@ export const checkUser = async (user: User): Promise<boolean> => {
     args: [user.name],
   })
 
-  if (res.rows.length === 0 || !res.rows[0]) {
+  if (res.rows.length === 0 || !res.rows[0] || !res.rows[0].password) {
     return false
   }
 
-  const passwordHash = await hashPassword(user.password)
-  return res.rows[0].password === passwordHash
+  return checkPassword(user.password, String(res.rows[0].password))
 }
 
 // Check if username exists

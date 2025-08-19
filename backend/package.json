@@ -8,7 +8,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "cross-env NOVE_ENV=development tsx watch index.ts",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest --runInBand",
     "start": "cross-env NODE_ENV=production tsx index.ts",
     "start:test": "cross-env NODE_ENV=test tsx index.ts",
     "type-check": "tsc --noEmit",
