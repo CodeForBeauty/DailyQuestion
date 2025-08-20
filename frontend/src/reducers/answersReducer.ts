@@ -1,6 +1,6 @@
-import { createSlice, type Dispatch } from "@reduxjs/toolkit"
+import { createSlice, type Dispatch, type PayloadAction } from "@reduxjs/toolkit"
 
-import answers, { type AnswersData } from "../services/answers"
+import answers, { type AnswerData, type AnswersData } from "../services/answers"
 
 
 const emptyAnswerList: AnswersData = { question: "", answers: [] }
@@ -12,10 +12,13 @@ const answersReducer = createSlice({
     setAnswers(_state, action) {
       return action.payload
     },
+    addAnswer(state, action: PayloadAction<AnswerData>) {
+      state.answers.push(action.payload)
+    }
   },
 })
 
-export const { setAnswers } = answersReducer.actions
+export const { setAnswers, addAnswer } = answersReducer.actions
 export default answersReducer.reducer
 
 export const getAnswers = (token: string, page: number) => {

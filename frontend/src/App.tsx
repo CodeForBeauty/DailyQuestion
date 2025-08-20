@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 
 import { useAppDispatch, useAppSelector } from "./reducers/hooks"
@@ -32,13 +32,18 @@ const App = () => {
     }
   }, [token, dispatch])
 
+  const date = new Date()
+  date.setHours(0, 0, 0, 0)
+  const dateNum = date.getTime()
+
   return (
     <div>
       <Routes>
-        <Route path="/" element={<AnswerList />} />
+        <Route path="/:id" element={<AnswerList />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/answer" element={<AnswerForm />} />
         <Route path="/questions" element={<QuestionList />} />
+        <Route path="" element={<Navigate to={"/" + dateNum} />} />
       </Routes>
     </div>
   )

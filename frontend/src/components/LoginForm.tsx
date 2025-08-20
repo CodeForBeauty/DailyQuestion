@@ -16,26 +16,21 @@ const LoginForm = () => {
 
   const [error, setError] = useState("")
 
-  const tryLogin = async (event: React.MouseEvent) => {
+  const handleLogin = async (event: React.MouseEvent) => {
     event.preventDefault()
 
-    try {
-      const token = await login.login(name, password)
-      
-      if (token) {
-        localStorage.setItem("token", token)
-        dispatch(setToken(token))
-        navigate("/")
-      } else {
-        setError("Username or password are incorrect")
-      }
-    }
-    catch {
+    const token = await login.login(name, password)
+    
+    if (token !== null) {
+      localStorage.setItem("token", token)
+      dispatch(setToken(token))
+      navigate("/")
+    } else {
       setError("Username or password are incorrect")
     }
   }
 
-  const tryRegister = async (event: React.MouseEvent) => {
+  const handleRegister = async (event: React.MouseEvent) => {
     event.preventDefault()
 
     if (name.length > 15) {
@@ -81,8 +76,8 @@ const LoginForm = () => {
           />
         </div>
         <div>
-          <button onClick={tryLogin}>login</button>
-          <button onClick={tryRegister}>register</button>
+          <button onClick={handleLogin}>login</button>
+          <button onClick={handleRegister}>register</button>
         </div>
       </form>
     </>

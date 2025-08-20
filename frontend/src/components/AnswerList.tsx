@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { useAppSelector } from "../reducers/hooks"
 
 const Answer = ({ answer, user }: { answer: string; user: string }) => {
@@ -18,6 +20,7 @@ const AnswerList = () => {
       {answers.answers.map((answer, index) => (
         <Answer answer={answer.answer} user={answer.user} key={index} />
       ))}
+      <Link to="/answer"><button>leave answer</button></Link>
     </div>
   )
 }
