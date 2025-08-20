@@ -34,7 +34,10 @@ export const getAnswers = async (page: number): Promise<Answer[]> => {
   return getAnswersByQuestion(dateNum, page)
 }
 
-export const getAnswersByQuestion = async (question: number, page: number): Promise<Answer[]> => {
+export const getAnswersByQuestion = async (
+  question: number,
+  page: number,
+): Promise<Answer[]> => {
   const res = await turso.execute({
     sql: "SELECT answer, user FROM answers WHERE question = ? LIMIT 20 OFFSET ?",
     args: [question, page * 20],
@@ -56,6 +59,35 @@ export const getQuestion = async (id: number): Promise<string> => {
   }
 
   return String(res.rows[0].question) || ""
+}
+
+export type QuestionData = {
+  question: string
+  id: number
+}
+
+export const getQuestions = async (): Promise<QuestionData[]> => {
+  const res = await turso.execute("SELECT question, id FROM questions")
+
+  return res.rows.map((row) => {
+    return { question: String(row.question), id: Number(row.id) }
+  })
+}
+
+export const addQuestion = async (question: string, dayOffset: number): Promise<boolean> => {
+  try {
+    const date = new Date()
+    date.setHours(0, 0, 0, 0)
+    date.setDate(date.getDate() + dayOffset)
+    await turso.execute({
+      sql: "INSERT INTO questions (id, question) VALUES (?, ?)",
+      args: [date.getTime(), question],
+    })
+
+    return true
+  } catch {
+    return false
+  }
 }
 
 export const addAnswer = async (

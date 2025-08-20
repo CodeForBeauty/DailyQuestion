@@ -4,7 +4,7 @@ const loginRoute = express.Router()
 import { createUser, checkUser } from "../db"
 import { createToken } from "../utils/auth"
 
-import { User } from "../utils/types"
+import { type User } from "../utils/types"
 
 const MAX_CHARS = 15
 const MIN_PASS_LEN = 6

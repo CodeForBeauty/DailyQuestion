@@ -23,4 +23,6 @@ const ENCRYPT_KEY: string = process.env.ENCRYPT_KEY || ""
 
 const EXEC_ENV: string = process.env.NODE_ENV || "development"
 
-export default { PORT, TURSO_URI, TURSO_TOKEN, ENCRYPT_KEY, EXEC_ENV }
+const ADMIN_PASSWORD: string = process.env.ADMIN_PASSWORD || ""
+
+export default { PORT, TURSO_URI, TURSO_TOKEN, ENCRYPT_KEY, EXEC_ENV, ADMIN_PASSWORD }

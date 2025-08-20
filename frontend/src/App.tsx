@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom"
+import { Route, Routes, Navigate, useNavigate, useMatch } from "react-router-dom"
 import { useEffect } from "react"
 
 import { useAppDispatch, useAppSelector } from "./reducers/hooks"
@@ -10,6 +10,7 @@ import QuestionList from "./components/QuestionList"
 
 import { setToken } from "./reducers/tokenReducer"
 import { getAnswers } from "./reducers/answersReducer"
+import { getQuestions } from "./reducers/questionsReducer"
 
 const App = () => {
   const token = useAppSelector(({ token }) => token)
@@ -32,6 +33,14 @@ const App = () => {
     }
   }, [token, dispatch])
 
+  useEffect(() => {
+    dispatch(getQuestions())
+  })
+
+  const match = useMatch("/:id")
+
+  const questionId: number = match ? Number(match.params.id) : 0
+
   const date = new Date()
   date.setHours(0, 0, 0, 0)
   const dateNum = date.getTime()
@@ -39,7 +48,7 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/:id" element={<AnswerList />} />
+        <Route path="/:id" element={<AnswerList isToday={dateNum === questionId} />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/answer" element={<AnswerForm />} />
         <Route path="/questions" element={<QuestionList />} />

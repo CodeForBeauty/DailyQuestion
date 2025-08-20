@@ -3,6 +3,7 @@ import morgan from "morgan"
 
 import loginRoute from "./controllers/login"
 import answersRoute from "./controllers/answers"
+import questionsRoute from "./controllers/questions"
 import config from "./utils/config"
 import logger from "./utils/logger"
 
@@ -10,12 +11,12 @@ const app = express()
 
 if (config.EXEC_ENV !== "test") {
   app.use(morgan("tiny"))
-  console.log("morgan")
 }
 app.use(express.json())
 
 app.use("/api/user", loginRoute)
 app.use("/api/answer", answersRoute)
+app.use('/api/question', questionsRoute)
 
 const errorHandler = (
   error: any,
