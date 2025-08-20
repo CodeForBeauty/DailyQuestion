@@ -10,11 +10,12 @@ const app = express()
 
 if (config.EXEC_ENV !== "test") {
   app.use(morgan("tiny"))
+  console.log("morgan")
 }
 app.use(express.json())
 
-app.use("/user", loginRoute)
-app.use("/answer", answersRoute)
+app.use("/api/user", loginRoute)
+app.use("/api/answer", answersRoute)
 
 const errorHandler = (
   error: any,

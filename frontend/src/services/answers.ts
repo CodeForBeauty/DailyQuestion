@@ -5,10 +5,15 @@ export type AnswerData = {
   user: string
 }
 
+export type AnswersData = {
+  question: string
+  answers: AnswerData[]
+}
+
 const getTodays = async (
   token: string,
   page: number,
-): Promise<AnswerData[] | null> => {
+): Promise<AnswersData | null> => {
   const config = {
     headers: { Authorization: `Bearer ${token}`, Page: page },
   }
@@ -26,7 +31,7 @@ const getSelected = async (
   date: Date,
   token: string,
   page: number,
-): Promise<AnswerData[] | null> => {
+): Promise<AnswersData | null> => {
   const config = {
     headers: { Authorization: `Bearer ${token}`, Page: page },
   }

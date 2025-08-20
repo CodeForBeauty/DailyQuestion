@@ -29,17 +29,33 @@ export const clearDatabase = async () => {
   await turso.execute("DELETE FROM answers")
 }
 
-export const getAnswers = async (): Promise<Answer[]> => {
+export const getAnswers = async (page: number): Promise<Answer[]> => {
   const dateNum = getQuestionNum()
+  return getAnswersByQuestion(dateNum, page)
+}
 
+export const getAnswersByQuestion = async (question: number, page: number): Promise<Answer[]> => {
   const res = await turso.execute({
-    sql: "SELECT answer, user FROM answers WHERE question = ?",
-    args: [dateNum],
+    sql: "SELECT answer, user FROM answers WHERE question = ? LIMIT 20 OFFSET ?",
+    args: [question, page * 20],
   })
 
   return res.rows.map((row) => {
     return { answer: String(row.answer), user: String(row.user) }
   })
+}
+
+export const getQuestion = async (id: number): Promise<string> => {
+  const res = await turso.execute({
+    sql: "SELECT question FROM questions WHERE id = ?",
+    args: [id],
+  })
+
+  if (res.rows.length < 1 || !res.rows[0]) {
+    return ""
+  }
+
+  return String(res.rows[0].question) || ""
 }
 
 export const addAnswer = async (

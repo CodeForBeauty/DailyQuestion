@@ -4,3 +4,9 @@ export const getQuestionNum = (): number => {
   const dateNum = today.getTime()
   return dateNum
 }
+
+export const getDateNum = (date: Date): number => {
+  date.setHours(0, 0, 0, 0)
+  const dateNum = date.getTime()
+  return dateNum
+}
