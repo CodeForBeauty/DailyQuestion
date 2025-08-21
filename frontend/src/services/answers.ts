@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { isAxiosError } from "axios"
 
 export type AnswerData = {
   answer: string
@@ -21,12 +21,15 @@ const getTodays = async (
 
     const response = await axios.get("api/answer", config)
 
-    if (response.status !== 200) {
-      return null
-    }
-
     return response.data
-  } catch {
+  } catch (error: unknown) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.data.error === "invalid token"
+    ) {
+      localStorage.removeItem("token")
+    }
     return null
   }
 }
@@ -46,12 +49,15 @@ const getSelected = async (
 
     const response = await axios.get(`api/answer/${dateNum}`, config)
 
-    if (response.status !== 200) {
-      return null
-    }
-
     return response.data
-  } catch {
+  } catch (error: unknown) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.data.error === "invalid token"
+    ) {
+      localStorage.removeItem("token")
+    }
     return null
   }
 }
@@ -68,12 +74,15 @@ const leaveAnswer = async (
 
     const response = await axios.post("api/answer", { answer, isAnon }, config)
 
-    if (response.status !== 200) {
-      return null
-    }
-
     return response.data
-  } catch {
+  } catch (error: unknown) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.data.error === "invalid token"
+    ) {
+      localStorage.removeItem("token")
+    }
     return null
   }
 }

@@ -2,8 +2,16 @@ import { Link } from "react-router-dom"
 
 import { useAppSelector } from "../reducers/hooks"
 
+import "./QuestionList.scss"
+
 const Question = ({ question, id }: { question: string; id: number }) => {
-  return <Link to={"/" + id}>{question}</Link>
+  return (
+    <div>
+      <button className="question">
+        <Link to={"/" + id}>{question}</Link>
+      </button>
+    </div>
+  )
 }
 
 const QuestionList = () => {

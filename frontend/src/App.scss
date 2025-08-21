@@ -1,0 +1,55 @@
+@import "./theme.scss";
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  font-size: $fontSizeSecondary;
+  background-color: $colorTertiary;
+
+  height: 100%;
+}
+
+.error {
+  color: rgb(207, 18, 18);
+}
+
+button {
+  font-size: $fontSizePrimary;
+  margin: 0.4rem;
+  padding: 0.5rem;
+  cursor: pointer;
+
+  border-radius: 0.4rem;
+  border-color: $colorSecondary;
+  background-color: $buttonColorPrimary;
+  color: white;
+}
+
+button:hover {
+  background-color: $buttonColorHover;
+}
+
+input {
+  font-size: $fontSizeSecondary;
+  margin: 0.3rem;
+  padding: 0.4rem;
+
+  border-radius: 0.3rem;
+  border-width: 0.1rem;
+}
+
+input:hover {
+  border-width: 0.14rem;
+}
+
+h1 {
+  font-size: $fontSizeBig;
+  text-align: center;
+}

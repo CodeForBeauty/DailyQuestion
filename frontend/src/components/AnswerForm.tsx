@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { useAppSelector, useAppDispatch } from "../reducers/hooks"
 
@@ -14,15 +14,19 @@ const AnswerForm = () => {
 
   const [error, setError] = useState("")
 
+  const navigate = useNavigate()
+
   const dispatch = useAppDispatch()
 
   const handleAnswer = async (event: React.MouseEvent) => {
     event.preventDefault()
 
     const result = await answers.leaveAnswer(token, answer, isAnon)
+    console.log(result)
 
     if (result !== null) {
       dispatch(addAnswer(result))
+      navigate("/")
     } else {
       setError("Already answered")
     }
@@ -31,7 +35,7 @@ const AnswerForm = () => {
   return (
     <div>
       <form>
-        {error && <div>{error}</div>}
+        {error && <div className="error">{error}</div>}
         <div>
           Answer:{" "}
           <input

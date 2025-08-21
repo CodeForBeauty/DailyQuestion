@@ -67,14 +67,21 @@ export type QuestionData = {
 }
 
 export const getQuestions = async (): Promise<QuestionData[]> => {
-  const res = await turso.execute("SELECT question, id FROM questions")
+  const dateNum = getQuestionNum()
+  const res = await turso.execute({
+    sql: "SELECT question, id FROM questions WHERE id <= ?",
+    args: [dateNum],
+  })
 
   return res.rows.map((row) => {
     return { question: String(row.question), id: Number(row.id) }
   })
 }
 
-export const addQuestion = async (question: string, dayOffset: number): Promise<boolean> => {
+export const addQuestion = async (
+  question: string,
+  dayOffset: number,
+): Promise<boolean> => {
   try {
     const date = new Date()
     date.setHours(0, 0, 0, 0)

@@ -6,13 +6,17 @@ export type QuestionData = {
 }
 
 const getAll = async (): Promise<QuestionData[]> => {
-  const response = await axios.get("/api/question")
+  try {
+    const response = await axios.get("/api/question")
 
-  if (response.status !== 200) {
+    if (response.status !== 200) {
+      return []
+    }
+
+    return response.data
+  } catch {
     return []
   }
-
-  return response.data
 }
 
 export default { getAll }

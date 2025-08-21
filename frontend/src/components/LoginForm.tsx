@@ -1,13 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useAppDispatch } from "../reducers/hooks"
+import { useAppDispatch, useAppSelector } from "../reducers/hooks"
 
 import { setToken } from "../reducers/tokenReducer"
 
 import login from "../services/login"
 
+import "./LoginForm.scss"
+
 const LoginForm = () => {
+  const token = useAppSelector(({ token }) => token)
+
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (token) {
+      navigate("/")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
 
   const dispatch = useAppDispatch()
 
@@ -20,7 +31,7 @@ const LoginForm = () => {
     event.preventDefault()
 
     const token = await login.login(name, password)
-    
+
     if (token !== null) {
       localStorage.setItem("token", token)
       dispatch(setToken(token))
@@ -58,29 +69,31 @@ const LoginForm = () => {
   }
 
   return (
-    <>
-      <form>
-        {error && <div>{error}</div>}
-        <div>
-          Username:{" "}
-          <input
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </div>
-        <div>
-          Password:{" "}
-          <input
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-        <div>
-          <button onClick={handleLogin}>login</button>
-          <button onClick={handleRegister}>register</button>
-        </div>
-      </form>
-    </>
+    <form>
+      <h1>Please login</h1>
+      {error && <div className="error">{error}</div>}
+      <div>
+        <div className="label">Username: </div>
+        <input
+          name="username"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
+      </div>
+      <div>
+        <div className="label">Password: </div>
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </div>
+      <div>
+        <button onClick={handleLogin}>login</button>
+        <button onClick={handleRegister}>register</button>
+      </div>
+    </form>
   )
 }
 

@@ -2,6 +2,8 @@ import { createSlice, type Dispatch, type PayloadAction } from "@reduxjs/toolkit
 
 import answers, { type AnswerData, type AnswersData } from "../services/answers"
 
+import { setToken } from "./tokenReducer"
+
 
 const emptyAnswerList: AnswersData = { question: "", answers: [] }
 
@@ -25,6 +27,11 @@ export const getAnswers = (token: string, page: number) => {
   return async (dispatch: Dispatch) => {
     const data = await answers.getTodays(token, page)
 
+    if (data == null) {
+      dispatch(setToken(""))
+      return
+    }
+
     dispatch(setAnswers(data))
   }
 }
@@ -33,6 +40,11 @@ export const getAnswersByDay = (date: Date, token: string, page: number) => {
   return async (dispatch: Dispatch) => {
     const data = await answers.getSelected(date, token, page)
 
+    if (data == null) {
+      dispatch(setToken(""))
+      return
+    }
+    
     dispatch(setAnswers(data))
   }
 }

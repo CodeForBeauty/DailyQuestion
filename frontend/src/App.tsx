@@ -1,4 +1,10 @@
-import { Route, Routes, Navigate, useNavigate, useMatch } from "react-router-dom"
+import {
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+  useMatch,
+} from "react-router-dom"
 import { useEffect } from "react"
 
 import { useAppDispatch, useAppSelector } from "./reducers/hooks"
@@ -9,8 +15,10 @@ import AnswerForm from "./components/AnswerForm"
 import QuestionList from "./components/QuestionList"
 
 import { setToken } from "./reducers/tokenReducer"
-import { getAnswers } from "./reducers/answersReducer"
+import { getAnswersByDay } from "./reducers/answersReducer"
 import { getQuestions } from "./reducers/questionsReducer"
+
+import "./App.scss"
 
 const App = () => {
   const token = useAppSelector(({ token }) => token)
@@ -27,28 +35,38 @@ const App = () => {
     }
   }, [dispatch, navigate])
 
-  useEffect(() => {
-    if (token) {
-      dispatch(getAnswers(token, 0))
-    }
-  }, [token, dispatch])
-
+  
+  const match = useMatch("/:id")
   useEffect(() => {
     dispatch(getQuestions())
-  })
-
-  const match = useMatch("/:id")
-
+  }, [dispatch])
+  
+  
   const questionId: number = match ? Number(match.params.id) : 0
+  useEffect(() => {
+    if (token && questionId) {
+      dispatch(getAnswersByDay(new Date(questionId), token, 0))
+    }
+  }, [token, dispatch, questionId])
 
   const date = new Date()
   date.setHours(0, 0, 0, 0)
   const dateNum = date.getTime()
 
+  useEffect(() => {
+    if (!token) {
+      navigate("/login")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
+
   return (
-    <div>
+    <div className="container">
       <Routes>
-        <Route path="/:id" element={<AnswerList isToday={dateNum === questionId} />} />
+        <Route
+          path="/:id"
+          element={<AnswerList isToday={dateNum === questionId} />}
+        />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/answer" element={<AnswerForm />} />
         <Route path="/questions" element={<QuestionList />} />

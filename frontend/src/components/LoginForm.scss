@@ -1,0 +1,14 @@
+@import "../theme.scss";
+
+form {
+  font-size: $fontSizePrimary;
+  margin: 0.5rem;
+  background-color: $colorSecondary;
+  padding: 1rem;
+  border-radius: 0.3rem;
+}
+
+.label {
+  padding: 0.3rem;
+  margin: 0.3rem;
+}

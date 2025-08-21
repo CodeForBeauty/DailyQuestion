@@ -21,6 +21,8 @@ app.use("/api/answer", answersRoute)
 app.use("/api/question", questionsRoute)
 
 if (config.EXEC_ENV === "test") {
+  clearDatabase()
+  
   app.get("/api/clear", (_request, response) => {
     clearDatabase().then(() => {
       response.status(200).end
