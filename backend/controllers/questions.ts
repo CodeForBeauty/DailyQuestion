@@ -23,7 +23,7 @@ questionsRoute.post("/", (request, response) => {
     return
   }
 
-  if (!request.body.question || !request.body.offset) {
+  if (!request.body.question || request.body.offset == null) {
     response.status(401).send({ error: "malformed data" })
     return
   }

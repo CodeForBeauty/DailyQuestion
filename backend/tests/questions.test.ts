@@ -15,7 +15,8 @@ describe("testing questions api", () => {
   test("adding question", async () => {
     await api
       .post("/api/question")
-      .send({ answer: "testing", offset: 0, password: config.ADMIN_PASSWORD })
+      .send({ question: "testing", offset: 0, password: config.ADMIN_PASSWORD })
+      .expect(200)
 
     const response = await api.get("/api/question").expect(200)
 
