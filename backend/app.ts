@@ -7,6 +7,8 @@ import questionsRoute from "./controllers/questions"
 import config from "./utils/config"
 import logger from "./utils/logger"
 
+import { clearDatabase } from "./db"
+
 const app = express()
 
 if (config.EXEC_ENV !== "test") {
@@ -16,7 +18,15 @@ app.use(express.json())
 
 app.use("/api/user", loginRoute)
 app.use("/api/answer", answersRoute)
-app.use('/api/question', questionsRoute)
+app.use("/api/question", questionsRoute)
+
+if (config.EXEC_ENV === "test") {
+  app.get("/api/clear", (_request, response) => {
+    clearDatabase().then(() => {
+      response.status(200).end
+    })
+  })
+}
 
 const errorHandler = (
   error: any,
