@@ -11,7 +11,7 @@ const answersReducer = createSlice({
   name: "answers",
   initialState: emptyAnswerList,
   reducers: {
-    setAnswers(_state, action) {
+    setAnswers(_state, action: PayloadAction<AnswersData>) {
       return action.payload
     },
     addAnswer(state, action: PayloadAction<AnswerData>) {

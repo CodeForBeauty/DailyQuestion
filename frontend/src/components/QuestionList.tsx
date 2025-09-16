@@ -4,15 +4,7 @@ import { useAppSelector } from "../reducers/hooks"
 
 import "./QuestionList.scss"
 
-const Question = ({ question, id }: { question: string; id: number }) => {
-  return (
-    <div>
-      <button className="question">
-        <Link to={"/" + id}>{question}</Link>
-      </button>
-    </div>
-  )
-}
+import Question from "./Question"
 
 const QuestionList = () => {
   const questions = useAppSelector(({ questions }) => questions)

@@ -57,8 +57,7 @@ const App = () => {
     if (!token) {
       navigate("/login")
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token])
+  }, [token, navigate])
 
   return (
     <div className="container">
