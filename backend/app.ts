@@ -8,6 +8,7 @@ import config from "./utils/config"
 import logger from "./utils/logger"
 
 import { clearDatabase } from "./db"
+import path from "path"
 
 const app = express()
 
@@ -16,13 +17,15 @@ if (config.EXEC_ENV !== "test") {
 }
 app.use(express.json())
 
+app.use(express.static('dist'))
+
 app.use("/api/user", loginRoute)
 app.use("/api/answer", answersRoute)
 app.use("/api/question", questionsRoute)
 
 if (config.EXEC_ENV === "test") {
   clearDatabase()
-  
+
   app.get("/api/clear", (_request, response) => {
     clearDatabase().then(() => {
       response.status(200).end
@@ -52,6 +55,11 @@ const errorHandler = (
 
   next(error)
 }
+
+
+app.get("/{*any}", (_request, response) => {
+  response.sendFile(path.resolve(__dirname, "dist/index.html"))
+})
 
 app.use(errorHandler)
 
