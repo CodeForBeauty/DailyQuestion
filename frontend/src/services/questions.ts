@@ -19,4 +19,26 @@ const getAll = async (): Promise<QuestionData[]> => {
   }
 }
 
-export default { getAll }
+const addQuestion = async (
+  password: string,
+  question: string,
+  offset: number,
+): Promise<boolean> => {
+  try {
+    const response = await axios.post("/api/question", {
+      password,
+      question,
+      offset,
+    })
+
+    if (response.status !== 200) {
+      return false
+    }
+
+    return true
+  } catch {
+    return false
+  }
+}
+
+export default { getAll, addQuestion }

@@ -17,8 +17,7 @@ const LoginForm = () => {
     if (token) {
       navigate("/")
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token])
+  }, [token, navigate])
 
   const dispatch = useAppDispatch()
 

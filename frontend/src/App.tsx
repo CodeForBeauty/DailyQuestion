@@ -13,6 +13,7 @@ import LoginForm from "./components/LoginForm"
 import AnswerList from "./components/AnswerList"
 import AnswerForm from "./components/AnswerForm"
 import QuestionList from "./components/QuestionList"
+import AdminPanel from "./components/AdminPanel"
 
 import { setToken } from "./reducers/tokenReducer"
 import { getAnswersByDay } from "./reducers/answersReducer"
@@ -53,11 +54,11 @@ const App = () => {
   date.setHours(0, 0, 0, 0)
   const dateNum = date.getTime()
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/login")
-    }
-  }, [token, navigate])
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate("/login")
+  //   }
+  // }, [token, navigate])
 
   return (
     <div className="container">
@@ -69,6 +70,7 @@ const App = () => {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/answer" element={<AnswerForm />} />
         <Route path="/questions" element={<QuestionList />} />
+        <Route path="/admin" element={<AdminPanel />} />
         <Route path="" element={<Navigate to={"/" + dateNum} />} />
       </Routes>
     </div>
