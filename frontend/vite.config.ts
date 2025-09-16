@@ -16,4 +16,8 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
   },
+  build: {
+    outDir: '../backend/dist',
+    emptyOutDir: true,
+  }
 })
