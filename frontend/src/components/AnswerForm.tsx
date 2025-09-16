@@ -22,7 +22,6 @@ const AnswerForm = () => {
     event.preventDefault()
 
     const result = await answers.leaveAnswer(token, answer, isAnon)
-    console.log(result)
 
     if (result !== null) {
       dispatch(addAnswer(result))
