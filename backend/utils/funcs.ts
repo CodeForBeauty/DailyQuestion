@@ -1,12 +1,20 @@
 export const getQuestionNum = (): number => {
   const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const dateNum = today.getTime()
+  const utc = new Date(
+    today.getUTCFullYear(),
+    today.getUTCMonth(),
+    today.getUTCDate(),
+  )
+  const dateNum = utc.getTime()
   return dateNum
 }
 
 export const getDateNum = (date: Date): number => {
-  date.setHours(0, 0, 0, 0)
-  const dateNum = date.getTime()
+  const utc = new Date(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+  )
+  const dateNum = utc.getTime()
   return dateNum
 }

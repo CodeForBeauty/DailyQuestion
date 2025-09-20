@@ -51,14 +51,12 @@ const App = () => {
   }, [token, dispatch, questionId])
 
   const date = new Date()
-  date.setHours(0, 0, 0, 0)
-  const dateNum = date.getTime()
-
-  // useEffect(() => {
-  //   if (!token) {
-  //     navigate("/login")
-  //   }
-  // }, [token, navigate])
+  const utc = new Date(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+  )
+  const dateNum = utc.getTime()
 
   return (
     <div className="container">
