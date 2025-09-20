@@ -12,22 +12,43 @@ Typescript
 
 Turso
 
+Docker
+
 ## How to run
 
-### Start backend
+### Prerequisites
+
+Docker
+
+Git
+
+### Building
+
+Copy this repository
 
 ```bash
-cd backend
-npm install
-npm start
+git clone https://github.com/CodeForBeauty/DailyQuestion
 ```
 
-### Start frontend
-
-Commands below need to be executed on seperate instance of terminal
+Go into the compied folder
 
 ```bash
-cd frontend
-npm install
-npm run dev
+cd DailyQuestion
 ```
+
+Build docker image
+
+```bash
+docker build -t daily-question .
+```
+
+### Running
+
+Start the application with docker
+
+```bash
+docker run daily-question
+```
+
+The application will start on localhost using port 3333 or environment variable PORT.
+after starting application will be accesible on: http://localhost:3333/
