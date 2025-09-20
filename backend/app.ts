@@ -17,7 +17,7 @@ if (config.EXEC_ENV !== "test") {
 }
 app.use(express.json())
 
-app.use(express.static('dist'))
+app.use(express.static("dist"))
 
 app.use("/api/user", loginRoute)
 app.use("/api/answer", answersRoute)
@@ -27,9 +27,13 @@ if (config.EXEC_ENV === "test") {
   clearDatabase()
 
   app.get("/api/clear", (_request, response) => {
-    clearDatabase().then(() => {
-      response.status(200).end
-    })
+    clearDatabase()
+      .then(() => {
+        response.status(200).end()
+      })
+      .catch(() => {
+        response.status(500).end()
+      })
   })
 }
 
@@ -55,7 +59,6 @@ const errorHandler = (
 
   next(error)
 }
-
 
 app.get("/{*any}", (_request, response) => {
   response.sendFile(path.resolve(__dirname, "dist/index.html"))

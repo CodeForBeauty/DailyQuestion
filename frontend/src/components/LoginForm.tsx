@@ -71,18 +71,18 @@ const LoginForm = () => {
     <form>
       <h1>Please login</h1>
       {error && <div className="error">{error}</div>}
-      <div>
-        <div className="label">Username: </div>
+      <div className="input-field">
+        <label className="label" htmlFor="username">Username: </label>
         <input
-          name="username"
+          id="username"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
       </div>
-      <div>
-        <div className="label">Password: </div>
+      <div className="input-field">
+        <label className="label" htmlFor="password">Password: </label>
         <input
-          name="password"
+          id="password"
           type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}

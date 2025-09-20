@@ -36,17 +36,19 @@ const AnswerForm = () => {
       <form>
         {error && <div className="error">{error}</div>}
         <div>
-          Answer:{" "}
+          <label htmlFor="answer-text">Answer:</label>
           <input
             type="text"
+            id="answer-text"
             value={answer}
             onChange={(event) => setAnswer(event.target.value)}
           />
         </div>
         <div>
-          Anonymous:{" "}
+          <label htmlFor="is-anon">Anonymous:</label>
           <input
             type="checkbox"
+            id="is-anon"
             checked={isAnon}
             onChange={() => setIsAnon(!isAnon)}
           />
