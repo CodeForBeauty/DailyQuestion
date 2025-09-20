@@ -31,3 +31,8 @@ Start production server
 ```bash
 npm start
 ```
+
+Or start local testing server
+
+```bash
+npm run start:test
